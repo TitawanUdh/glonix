@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button, message } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import { IoMdSettings } from "react-icons/io";
+import { DownOutlined, CloseOutlined } from "@ant-design/icons"; // ใช้ CloseOutlined จาก Ant Design
 import imgPersonal from "../images/images/person.png";
 import { Image } from "react-bootstrap";
 import iconNavMenu from "../images/icons/nav-bar.svg";
 import iconLine from "../images/icons/line.svg";
+
 function NavBar() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isNav, setIsNav] = useState(false); // ควบคุมการแสดงผลของเมนู
+  const [isNav, setIsNav] = useState(false);
 
   const dataNav = [
     { id: 1, title: "รายวิชา", link: "/subject" },
@@ -20,7 +20,6 @@ function NavBar() {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
     };
-    handleResize(); // Initial check
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -29,19 +28,21 @@ function NavBar() {
     const item = dataNav.find((d) => d.id === id);
     if (item) {
       message.info(`Navigating to: ${item.title}`);
-      window.location.href = item.link; // Redirect to the link
+      window.location.href = item.link;
     }
   };
 
   const toggleNavMenu = () => {
-    setIsNav(prev => !prev); // เปลี่ยนค่า isNav ทุกครั้ง
+    setIsNav((prev) => !prev);
   };
-  
+
+  const closeNavMenu = () => {
+    setIsNav(false); // ปิดเมนูเมื่อคลิกปุ่มปิด
+  };
 
   return (
     <div className="nav-bar" style={navbarStyle}>
       <div className="d-flex justify-content-between align-items-center">
-        {/* ซ้ายสุด: โลโก้ */}
         <div className="d-flex align-items-center">
           <div style={{ padding: "10px", color: "#00665E", fontSize: "34px" }}>
             LOGO
@@ -56,7 +57,6 @@ function NavBar() {
             ))}
         </div>
 
-        {/* ขวาสุด: IconNavMenu */}
         {isSmallScreen ? (
           <Image
             src={iconNavMenu}
@@ -83,22 +83,34 @@ function NavBar() {
       </div>
 
       {/* Fullscreen Nav Menu */}
-
       {isNav && (
         <div className="overlay-menu">
           <div className="overlay-content">
-          <Button className="close-btn" onClick={toggleNavMenu}>
-        &times; 
-      </Button>
-            <Image src={iconLine} />
+            {/* ปุ่มปิดเมนู */}
+            <Button
+              className="close-btn"
+              onClick={closeNavMenu}
+              style={{
+                position: "absolute", // ใช้ absolute เพื่อให้ปุ่มปิดอยู่ในตำแหน่งที่ถูกต้อง
+                top: "20px",
+                right: "20px",
+                border: "none",
+                fontSize: "30px",
+                cursor: "pointer",
+                zIndex: 1001, // เพื่อให้ปุ่มมีลำดับความสำคัญสูงสุดเมื่ออยู่เหนือส่วนอื่น
+              }}
+            >
+              <CloseOutlined />
+            </Button>
 
+            <Image src={iconLine} />
             {dataNav.map((item) => (
               <div
                 key={item.id}
                 className="overlay-item"
                 onClick={() => handleMenuClick(item.id)}
                 style={{
-                  padding: "10px", // เพิ่ม padding ให้กับแต่ละปุ่ม
+                  padding: "10px",
                 }}
               >
                 <div>{item.title}</div>
@@ -108,7 +120,7 @@ function NavBar() {
 
             <div
               className="button-small p-2 d-flex flex-column"
-              style={{ margin: "0", padding: "0", height: "100%" }} // กำหนดให้สูงเต็มหน้าจอ
+              style={{ margin: "0", padding: "0", height: "100%" }}
             >
               <div style={{ marginTop: "auto" }}>
                 <Button
@@ -117,7 +129,7 @@ function NavBar() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    width: "100%", // เพิ่มความกว้างเต็มหน้าจอ
+                    width: "100%",
                   }}
                 >
                   <Image

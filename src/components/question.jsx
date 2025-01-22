@@ -138,7 +138,6 @@ function Questions({ d, i }) {
                     </div>
                   </div>
 
-                  {/* Wrapping the textarea and button in a flex container */}
                   <div className="d-flex flex-column mt-3">
                     <textarea
                       id="editor"
