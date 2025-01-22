@@ -3,19 +3,23 @@ import { Button, Card, Col, Image, Row } from "react-bootstrap";
 
 function CourseCourse({ d, i }) {
   return (
-    <Row className=" w-100">
-      <Col xl={12}>
-        <Row>
-          <Col xl={6} md={12} sm={12}>
-            <span className="d-flex gap-2">
-              <Image src={d.icon} />
-              <h2 key={i} className="text-topic">
-                {d.title}
-              </h2>
-            </span>
-          </Col>
-        </Row>
-      </Col>
+   <div className="row p-2">
+         <div className="col-12">
+           <div className="row mb-3 align-items-center">
+             <div className="col-xl-6 d-flex gap-2 align-items-center">
+               <Image
+                 src={d.icon}
+                 alt="icon"
+                 style={{ width: "50px", height: "50px" }}
+               />
+               <h2 className="text-topic">{d.title}</h2>
+             </div>
+             <div className="col-xl-6 d-flex justify-content-center justify-content-xl-end">
+               <Button variant="outline-primary" className="all-button">
+                 ดูทั้งหมด
+               </Button>
+             </div>
+           </div>
       <div className="mt-3 mb-4 col-12 p-0">
         <div className="d-flex justify-content-center gap-2 overflow-scroll-container">
           {d.details.map((d1, i1) => (
@@ -52,7 +56,8 @@ function CourseCourse({ d, i }) {
           ))}
         </div>
       </div>
-    </Row>
+   </div>
+   </div>
   );
 }
 
